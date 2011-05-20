@@ -14,12 +14,12 @@ class BillsController < ApplicationController
 
   def create
     bill_params = params[:bill]
-    bill_params[:people_attributes].reject! do |key, val| val[:email].blank? end 
+    bill_params[:people_attributes].reject! do |key, val| val[:name].blank? end 
 
     @bill = Bill.new(:name => bill_params[:name])
 
     bill_params[:people_attributes].each do |key, val|
-      p = Person.where(:email => val[:email]).first
+      p = Person.where(:name => val[:name]).first
       unless p
         p = Person.new(val)
         p.save
@@ -38,6 +38,7 @@ class BillsController < ApplicationController
 
   def show
     @bill = Bill.where(:uuid => params[:uuid]).first
+    @new_expense = Expense.new
 
     respond_to do |format|
       if @bill

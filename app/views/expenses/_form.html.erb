@@ -1,0 +1,25 @@
+<%= form_for exp, :url => expenses_create_path(bill.uuid) do |f| %>
+  <div class="field">
+    <%= f.label :creditors %><br />
+    <%= f.select(:creditors, bill.people.collect { |p| [ p.name, p.id ] }, {}, { :multiple => "multiple" }) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+
+  <div class="field">
+    <%= f.label :amount %> (£)<br />
+    <%= f.text_field :amount %>
+  </div>
+
+  <div class="field">
+    <%= f.label :debitors %><br />
+    <%= f.select(:debitors, bill.people.collect { |p| [ p.name, p.id ] }, {}, { :multiple => "multiple" }) %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

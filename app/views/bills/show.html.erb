@@ -1,9 +1,37 @@
 <p id="notice"><%= notice %></p>
 <h1><%= @bill.name %> - Bill</h1>
 
-<h2>Everyone</h2>
-<% @bill.people.each do |peep| %>
-<p>
-  <%= peep.email %>
-</p>
+<div id="add-expense">
+  <h2>Add an expense</h2>
+  <%= render :partial => "expenses/form", :locals => { :exp => @new_expense, :bill => @bill } %>
+</div>
+
+<div id="list-expenses">
+  <h2>Expenses list</h2>
+<% if @bill.expenses.blank? %>
+  <p id="no-expenses">
+    Nothing to see here. No expenses, zip, zilch.
+  </p>
+<% else %>
+  <% @bill.expenses.each do |exp| %>
+    <p>
+      <%= "#{exp.creditors_list} paid " %> £ <%= "#{exp.amount} for \"#{exp.description}\" on behalf of #{exp.debitors_list}" %>
+    </p>
+  <% end %>
 <% end %>
+</div>
+
+<div id="list-payments">
+  <h2>Payments list</h2>
+<% if @bill.payments.blank? %>
+  <p id="no-expenses">
+    Nothing to pay for.
+  </p>
+<% else %>
+  <% @bill.payments.each do |pay| %>
+    <p>
+      <%= "#{pay.debitor.name} owes #{pay.creditor.name} : " %> £ <%= "#{pay.amount}" %>
+    </p>
+  <% end %>
+<% end %>
+</div>
