@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.0.beta1'
+gem 'rails', '3.1.0.rc1'
 
 gem 'sass'
 gem 'coffee-script'
@@ -8,8 +8,7 @@ gem 'uglifier'
 gem 'jquery-rails'
 gem "json"
 
-# sprockets beta 2 and latest mongoid play happily
-gem 'sprockets', '2.0.0.beta.2'
+gem 'sprockets', '2.0.0.beta.8'
 gem "mongoid", :git => "https://github.com/mongoid/mongoid.git"
 gem "bson_ext", "~> 1.3"
 gem "uuidtools"
@@ -21,4 +20,8 @@ end
 
 group :development do
   gem "therubyracer", :require => "v8"
+end
+
+group :test do
+  gem "fabrication"
 end

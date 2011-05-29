@@ -6,10 +6,16 @@ defaults: &defaults
   reconnect_time: 3
   use_object_ids: true
 
-development:
-  host: localhost
-  database: billwaldo
-
 production:
   <<: *defaults
   uri: <%= ENV['MONGOHQ_URL'] %>
+
+development:
+  <<: *defaults
+  host: localhost
+  database: billwaldo
+
+test:
+  <<: *defaults
+  host: localhost
+  database: testbillwaldo

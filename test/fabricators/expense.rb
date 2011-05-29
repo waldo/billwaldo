@@ -1,0 +1,2 @@
+Fabricator(:expense) do
+end
