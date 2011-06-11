@@ -10,4 +10,8 @@ class Payment
 
   belongs_to_related :creditor, :class_name => "Person"
   belongs_to_related :debitor, :class_name => "Person"
+  
+  def ==(other)
+    self.amount == other.amount && self.creditor == other.creditor && self.debitor == other.debitor
+  end
 end
