@@ -12,7 +12,7 @@ class BillTest < ActiveSupport::TestCase
   
   test "bill payed by one on behalf of himself plus one" do
     bill = Fabricate(:bill, :people => [@adam, @ben])
-    bill.expenses << Fabricate.build(:expense, 
+    bill.add_expense Fabricate.build(:expense, 
       :amount => 2,
       :creditors => [@adam], 
       :debitors => [@adam, @ben]
@@ -28,7 +28,7 @@ class BillTest < ActiveSupport::TestCase
   
   test "bill payed by one on behalf of two" do
     bill = Fabricate(:bill, :people => [@adam, @ben, @charlie])
-    bill.expenses << Fabricate.build(:expense, 
+    bill.add_expense Fabricate.build(:expense, 
       :amount => 2,
       :creditors => [@adam], 
       :debitors => [@charlie, @ben]
@@ -49,7 +49,7 @@ class BillTest < ActiveSupport::TestCase
   
   test "bill payed by one on behalf of three" do
     bill = Fabricate(:bill, :people => [@adam, @ben, @charlie])
-    bill.expenses << Fabricate.build(:expense, 
+    bill.add_expense Fabricate.build(:expense, 
       :amount => 3,
       :creditors => [@adam], 
       :debitors => [@adam, @ben, @charlie]
@@ -68,7 +68,7 @@ class BillTest < ActiveSupport::TestCase
   
   test "bill payed by two on behalf of three" do
     bill = Fabricate(:bill, :people => [@adam, @ben, @charlie])
-    bill.expenses << Fabricate.build(:expense, 
+    bill.add_expense Fabricate.build(:expense, 
       :amount => 3,
       :creditors => [@adam, @ben], 
       :debitors => [@adam, @ben, @charlie]
@@ -87,12 +87,12 @@ class BillTest < ActiveSupport::TestCase
   
   test "two bills payed by one on behalf of two" do
     bill = Fabricate(:bill, :people => [@adam, @ben])
-    bill.expenses << Fabricate.build(:expense, 
+    bill.add_expense Fabricate.build(:expense, 
       :amount => 1,
       :creditors => [@adam], 
       :debitors => [@adam, @ben]
     )
-    bill.expenses << Fabricate.build(:expense, 
+    bill.add_expense Fabricate.build(:expense, 
       :amount => 1,
       :creditors => [@adam], 
       :debitors => [@adam, @ben]
@@ -107,12 +107,12 @@ class BillTest < ActiveSupport::TestCase
   
   test "two bills payed by two on behalf each other balances out" do
     bill = Fabricate(:bill, :people => [@adam, @ben])
-    bill.expenses << Fabricate.build(:expense, 
+    bill.add_expense Fabricate.build(:expense, 
       :amount => 1,
       :creditors => [@adam], 
       :debitors => [@adam, @ben]
     )
-    bill.expenses << Fabricate.build(:expense, 
+    bill.add_expense Fabricate.build(:expense, 
       :amount => 1,
       :creditors => [@ben], 
       :debitors => [@adam, @ben]
@@ -123,12 +123,12 @@ class BillTest < ActiveSupport::TestCase
   
   test "two bills payed by two on behalf of each other with different amounts" do
     bill = Fabricate(:bill, :people => [@adam, @ben])
-    bill.expenses << Fabricate.build(:expense, 
+    bill.add_expense Fabricate.build(:expense, 
       :amount => 3,
       :creditors => [@adam], 
       :debitors => [@adam, @ben]
     )
-    bill.expenses << Fabricate.build(:expense, 
+    bill.add_expense Fabricate.build(:expense, 
       :amount => 1,
       :creditors => [@ben], 
       :debitors => [@adam, @ben]

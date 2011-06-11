@@ -22,6 +22,18 @@ class Expense
     listize(self.debitors)
   end
 
+  def update_balances
+    cred_count = self.creditors.count
+    deb_count = self.debitors.count
+    self.creditors.each do |cred|
+      cred.add_credit self.bill, self.amount / cred_count
+    end
+   
+    self.debitors.each do |deb|
+      deb.add_debit self.bill, self.amount / deb_count
+    end
+    
+  end
   protected
   def listize(list, separator = ", ")
     list.map(&:name).join(separator)
