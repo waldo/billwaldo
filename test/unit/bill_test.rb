@@ -7,7 +7,7 @@ class BillTest < ActiveSupport::TestCase
     @ben = Fabricate(:ben)
     @charlie = Fabricate(:charlie)
     @dan = Fabricate(:dan)
-    # @ed = Fabricate(:ed)
+    @ed = Fabricate(:ed)
   end
   
   test "bill payed by one on behalf of himself plus one" do
@@ -139,5 +139,41 @@ class BillTest < ActiveSupport::TestCase
       :amount => 1, 
       :creditor => @adam, 
       :debitor => @ben)
+  end
+  
+  test "payments can be optimzed" do
+    bill = Fabricate(:bill, :people => [@adam, @ben, @charlie, @dan, @ed])
+    bill.add_expense Fabricate.build(:expense, 
+      :amount => 300,
+      :creditors => [@adam], 
+      :debitors => [@dan]
+    )
+    bill.add_expense Fabricate.build(:expense, 
+      :amount => 150,
+      :creditors => [@ben], 
+      :debitors => [@ed]
+    )
+    bill.add_expense Fabricate.build(:expense, 
+      :amount => 100,
+      :creditors => [@charlie], 
+      :debitors => [@dan]
+    )
+    bill.save
+    puts "#{@adam.id}, #{@ben.id}, #{@charlie.id}, #{@dan.id}, #{@ed.id}"
+    puts bill.payments.inspect
+    assert_equal 3, bill.payments.length
+    assert bill.payments.include? Fabricate.build(:payment, 
+      :amount => 300, 
+      :creditor => @adam, 
+      :debitor => @dan)
+    assert bill.payments.include? Fabricate.build(:payment, 
+      :amount => 150, 
+      :creditor => @ben, 
+      :debitor => @ed)
+    assert bill.payments.include? Fabricate.build(:payment, 
+      :amount => 100, 
+      :creditor => @charlie, 
+      :debitor => @dan)
+    
   end
 end
