@@ -23,6 +23,10 @@ class Person
     get_account(bill).balance
   end
   
+  def absolute_balance(bill)
+    balance(bill).abs
+  end
+  
   def get_account(bill)
     accounts.each do |account|
       return account if account.bill == bill
@@ -30,5 +34,13 @@ class Person
     new_account = Account.new(:person => self, :bill => bill, :balance => 0)
     accounts << new_account
     new_account
+  end
+  
+  def has_pending_debit(bill)
+    balance(bill) <= 0.01
+  end
+  
+  def has_pending_credit(bill)
+    balance(bill) >= 0.01
   end
 end

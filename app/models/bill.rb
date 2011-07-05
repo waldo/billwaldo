@@ -34,18 +34,9 @@ class Bill
 
     overall_debitors.each do |debitor|
       overall_creditors.each do |creditor|
-          cred_balance = creditor.balance(self)
-          deb_balance = debitor.balance(self)
-          if deb_balance <= -0.01 and cred_balance >= 0.01
-            amt = cred_balance
-            amt = deb_balance.abs if deb_balance.abs < cred_balance
-
-            pay = self.payments.build
-            pay.amount = amt
-            pay.creditor_id = creditor.id
-            pay.debitor_id = debitor.id
-            pay.save
-
+          if debitor.has_pending_debit self and creditor.has_pending_credit self
+            amt = [creditor.absolute_balance(self), debitor.absolute_balance(self)].min
+            self.payments.create!(:amount => amt, :creditor => creditor, :debitor => debitor)
             debitor.add_credit self, amt
             creditor.add_debit self, amt
         end
