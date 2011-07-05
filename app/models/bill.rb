@@ -28,10 +28,6 @@ class Bill
   
   def update_payments
     self.payments.clear
-
-    overall_debitors = self.people.reject do |p| p.balance(self) >= 0 end.sort_by do |p| p.balance(self) end
-    overall_creditors = self.people.reject do |p| p.balance(self) < 0 end.sort_by do |p| -p.balance(self) end
-
     overall_debitors.each do |debitor|
       overall_creditors.each do |creditor|
           if debitor.has_pending_debit self and creditor.has_pending_credit self
@@ -42,5 +38,13 @@ class Bill
         end
       end
     end
+  end
+  
+  def overall_debitors
+    self.people.reject do |p| p.balance(self) >= 0 end.sort_by do |p| p.balance(self) end
+  end
+  
+  def overall_creditors    
+    self.people.reject do |p| p.balance(self) < 0 end.sort_by do |p| -p.balance(self) end
   end
 end
