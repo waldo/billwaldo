@@ -27,13 +27,15 @@ class Expense
     deb_count = self.debitors.count
     self.creditors.each do |cred|
       cred.add_credit self.bill, self.amount / cred_count
+      cred.save
     end
    
     self.debitors.each do |deb|
       deb.add_debit self.bill, self.amount / deb_count
-    end
-    
+      deb.save
+    end    
   end
+
   protected
   def listize(list, separator = ", ")
     list.map(&:name).join(separator)

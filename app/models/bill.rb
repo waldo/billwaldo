@@ -31,7 +31,7 @@ class Bill
     calculate_next_payment
   end
   
-  def calculate_next_payment 
+  def calculate_next_payment
     debitor = self.people.min_by do |p| p.balance(self) end
     creditor = self.people.max_by do |p| p.balance(self) end
     if debitor.has_pending_debit self and creditor.has_pending_credit self
@@ -46,5 +46,4 @@ class Bill
     debitor.add_credit self, amount
     creditor.add_debit self, amount    
   end
-
 end

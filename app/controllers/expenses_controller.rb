@@ -4,10 +4,10 @@ class ExpensesController < ApplicationController
     logger.debug(params.inspect)
 
     @bill = Bill.where(:uuid => params[:uuid]).first
-    @expense = @bill.expenses.build
+    @expense = Expense.new params[:expense]
+    @bill.add_expense(@expense)
     
-    if @expense.update_attributes(params[:expense])
-      @bill.save
+    if @bill.save
       notice = "#{@expense.description} - saved."
     else
       notice = "Eep, something went wrong saving your expense."
