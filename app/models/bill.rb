@@ -27,10 +27,12 @@ class Bill
   end
   
   def update_payments
-    self.payments.clear
-    calculate_next_payment
+    if !self.people.empty?
+      self.payments.clear
+      calculate_next_payment
+    end
   end
-  
+
   def calculate_next_payment
     debitor = self.people.min_by do |p| p.balance(self) end
     creditor = self.people.max_by do |p| p.balance(self) end

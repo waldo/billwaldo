@@ -10,6 +10,12 @@ class BillTest < ActiveSupport::TestCase
     @ed = Fabricate(:ed)
   end
   
+  test "empty bill doesn't die" do
+    bill = Fabricate(:bill, :people => [])
+    bill.save
+    assert bill.payments.length == 0
+  end
+  
   test "bill payed by one on behalf of himself plus one" do
     bill = Fabricate(:bill, :people => [@adam, @ben])
     bill.add_expense Fabricate.build(:expense, 
