@@ -7,7 +7,7 @@ class Bill
   before_save :update_payments
 
   field :uuid, :type => String
-  field :name, :type => String
+  field :name, :type => String, :default => "Unnamed"
   has_and_belongs_to_many :people
   embeds_many :expenses
   embeds_many :payments

@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
-
-one:
-  amount: 1.5
-  paid_flag: false
-
-two:
-  amount: 1.5
-  paid_flag: false

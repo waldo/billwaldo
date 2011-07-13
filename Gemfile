@@ -24,4 +24,12 @@ end
 
 group :test do
   gem "fabrication"
+  gem "watir-webdriver"
+  gem "autotest"
+  gem "autotest-fsevent"
+  gem "autotest-growl"
+end
+
+group :test, :development do
+  gem "rspec-rails"
 end
