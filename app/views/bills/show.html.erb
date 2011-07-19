@@ -1,9 +1,14 @@
 <p id="notice"><%= notice %></p>
 <h1><%= @bill.name %> - Bill</h1>
 
+<div id="add-person">
+  <h2>Add a person</h2>
+  <%= render :partial => "add_person" %>
+</div>
+
 <div id="add-expense">
   <h2>Add an expense</h2>
-  <%= render :partial => "expenses/form", :locals => { :exp => @new_expense, :bill => @bill } %>
+  <%= render :partial => "expenses/form" %>
 </div>
 
 <div id="list-expenses">

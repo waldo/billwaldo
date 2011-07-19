@@ -2,11 +2,6 @@ class BillsController < ApplicationController
   def new
     @bill = Bill.new
 
-    # TODO: move this kludge client-side with jquery function to generate extra people fields on demand
-    10.times do
-      @bill.people << Person.new
-    end
-
     respond_to do |format|
       format.html
     end
@@ -14,18 +9,8 @@ class BillsController < ApplicationController
 
   def create
     bill_params = params[:bill]
-    bill_params[:people_attributes].reject! do |key, val| val[:name].blank? end 
 
     @bill = Bill.new(:name => bill_params[:name])
-
-    bill_params[:people_attributes].each do |key, val|
-      p = Person.where(:name => val[:name]).first
-      unless p
-        p = Person.new(val)
-        p.save
-      end
-      @bill.people << p
-    end
 
     respond_to do |format|
       if @bill.save
@@ -38,7 +23,6 @@ class BillsController < ApplicationController
 
   def show
     @bill = Bill.where(:uuid => params[:uuid]).first
-    @new_expense = Expense.new
 
     respond_to do |format|
       if @bill
@@ -46,6 +30,19 @@ class BillsController < ApplicationController
       else
         format.html { redirect_to root_path, :notice => "Sorry, we couldn't find your bill." }
       end
+    end
+  end
+
+  def add_person
+    logger.debug "params[ :uuid ]: #{ params[ :uuid ]}"
+    @bill = Bill.where( :uuid => params[ :uuid ]).first
+    @bill.people << Person.new( params[ :person ])
+    @bill.reload
+
+    logger.debug "@bill: #{ @bill.inspect }"
+
+    respond_to do |format|
+      format.html { render :partial => "expenses/form" }
     end
   end
 end

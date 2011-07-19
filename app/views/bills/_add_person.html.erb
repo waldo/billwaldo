@@ -1,0 +1,14 @@
+<%
+  @person = @person || Person.new
+%>
+
+<%= form_for @person, :remote => true, :url => people_create_path( @bill.uuid ) do |f| %>
+  <div class="field">
+    <%= f.label :name %>
+    <br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

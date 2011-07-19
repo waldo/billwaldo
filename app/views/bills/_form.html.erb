@@ -17,14 +17,6 @@
     <%= f.text_field :name %>
   </div>
 
-  <h2>Put people on the bill</h2>
-  <%= f.fields_for :people do |builder| %>
-    <p>
-      <%= builder.label :name %><br />
-      <%= builder.text_field :name %>
-    </p>
-  <% end %>
-
   <div class="actions">
     <%= f.submit %>
   </div>
