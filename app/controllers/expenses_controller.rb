@@ -1,8 +1,6 @@
 class ExpensesController < ApplicationController
   # POST /bills/:uuid/expenses
   def create
-    logger.debug(params.inspect)
-
     @bill = Bill.where(:uuid => params[:uuid]).first
     @expense = Expense.new params[:expense]
     @bill.add_expense(@expense)

@@ -34,12 +34,9 @@ class BillsController < ApplicationController
   end
 
   def add_person
-    logger.debug "params[ :uuid ]: #{ params[ :uuid ]}"
     @bill = Bill.where( :uuid => params[ :uuid ]).first
     @bill.people << Person.new( params[ :person ])
     @bill.reload
-
-    logger.debug "@bill: #{ @bill.inspect }"
 
     respond_to do |format|
       format.html { render :partial => "expenses/form" }
