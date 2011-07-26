@@ -32,9 +32,8 @@ describe "bill" do
     @browser.h1.text.should == "ost - Bill"
     @browser.text_field( :id => "person_name").set("Joe")
     @browser.button(:value => "Create Person").click
-    sleep 1
     Watir::Wait.until {
-      @browser.select_list(:id => "expense_creditors").select("Joe")
+      @browser.element(:xpath => "//select[@id='expense_creditors']/option[text()='Joe']").exists?
     }
   end
 end
