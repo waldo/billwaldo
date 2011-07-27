@@ -9,8 +9,12 @@ class BillsController < ApplicationController
 
   def create
     bill_params = params[:bill]
-
-    @bill = Bill.new(:name => bill_params[:name])
+    
+    if bill_params[:name].empty?
+      @bill = Bill.new
+    else
+      @bill = Bill.new(:name => bill_params[:name])
+    end
 
     respond_to do |format|
       if @bill.save

@@ -1,14 +1,12 @@
 require "spec_helper"
-require "watir-webdriver"
 
 describe "bill" do
   before :all do
-    @browser = Watir::Browser.new :chrome
+    @browser = BrowserHelper.new
   end
 
   before :each do
-    @browser.goto "http://localhost:3000/"
-    @browser.h1.text.should == "Bill Waldo"
+    @browser.go_home
   end
 
   after :all do
@@ -16,24 +14,18 @@ describe "bill" do
   end
 
   it "should create a new named bill" do
-    @browser.text_field(:id => "bill_name").set("ost")
-    @browser.button(:name => "commit").click
-    @browser.h1.text.should == "ost - Bill"
+    @browser.create_bill "ost"
+    @browser.check_bill_name "ost"
   end
 
   it "should create a new unnamed bill" do
-    @browser.button(:name => "commit").click
-    @browser.h1.text.should == "Unnamed - Bill"
+    @browser.create_bill ""
+    @browser.check_bill_name "Unnamed"
   end
 
   it "should create a bill, then add people" do
-    @browser.text_field(:id => "bill_name").set("ost")
-    @browser.button(:name => "commit").click
-    @browser.h1.text.should == "ost - Bill"
-    @browser.text_field( :id => "person_name").set("Joe")
-    @browser.button(:value => "Create Person").click
-    Watir::Wait.until {
-      @browser.element(:xpath => "//select[@id='expense_creditors']/option[text()='Joe']").exists?
-    }
+    @browser.create_bill "ost"
+    @browser.add_person "Fred"
+    @browser.check_person_name "Fred"
   end
 end
